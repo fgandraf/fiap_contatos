@@ -7,6 +7,8 @@ import com.felipegandra.contatos.model.Contato;
 import com.felipegandra.contatos.repository.ContatoRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
@@ -35,7 +37,7 @@ public class ContatoService {
     }
 
     public ContatoExibicaoDto buscarPeloEmail(String email){
-        Optional<Contato> contatoOptional = repository.findByEmail(email);
+        Optional<Contato> contatoOptional = repository.buscarPorEmail(email);
         if (contatoOptional.isPresent()) {
             return new ContatoExibicaoDto(contatoOptional.get());
         } else {
@@ -52,8 +54,11 @@ public class ContatoService {
         }
     }
 
-    public List<Contato> listarTodosOsContatos() {
-        return repository.findAll();
+    public Page<ContatoExibicaoDto> listarTodos(Pageable paginacao) {
+
+        return repository
+                .findAll(paginacao)
+                .map(ContatoExibicaoDto::new);
     }
 
     public void excluir(Long id) {

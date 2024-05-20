@@ -6,6 +6,8 @@ import com.felipegandra.contatos.model.Contato;
 import com.felipegandra.contatos.service.ContatoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
@@ -20,15 +22,12 @@ public class ContatoController {
 
     @PostMapping("/contatos")
     @ResponseStatus(HttpStatus.CREATED)
-    public ContatoExibicaoDto gravar(@RequestBody @Valid ContatoCadastroDto contatoCadastroDto) {
-        return service.gravar(contatoCadastroDto);
-    }
+    public ContatoExibicaoDto gravar(@RequestBody @Valid ContatoCadastroDto contatoCadastroDto) { return service.gravar(contatoCadastroDto); }
 
     @GetMapping("/contatos")
     @ResponseStatus(HttpStatus.OK)
-    public List<Contato> listarTodosOsContatos(){
-        return service.listarTodosOsContatos();
-    }
+    public Page<ContatoExibicaoDto> listarTodos(Pageable paginacao) { return service.listarTodos(paginacao); }
+
 
     @DeleteMapping("/contatos/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -49,9 +48,7 @@ public class ContatoController {
     }
 
     @GetMapping(value = "/contatos", params = "email")
-    public ContatoExibicaoDto buscarContatoPeloEmail(@RequestParam String email) {
-        return service.buscarPeloEmail(email);
-    }
+    public ContatoExibicaoDto buscarContatoPeloEmail(@RequestParam String email) { return service.buscarPeloEmail(email); }
 
     @GetMapping("/contatos/{dataInicial}/{dataFinal}")
     @ResponseStatus(HttpStatus.OK)

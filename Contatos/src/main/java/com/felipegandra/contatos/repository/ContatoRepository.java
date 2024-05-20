@@ -13,10 +13,12 @@ public interface ContatoRepository extends JpaRepository<Contato, Long> {
 
     Optional<Contato> findByNome(String nome);
 
-    @Query("SELECT c FROM Contato c WHERE c.email = :email")
-    Optional<Contato> findByEmail(@Param("email") String email);
-
     List<Contato> findByDataNascimentoBetween(LocalDate dataInicio, LocalDate dataFinal);
+
+
+
+    @Query("SELECT c FROM Contato c WHERE c.email = :email")
+    Optional<Contato> buscarPorEmail(@Param("email") String email);
 
     @Query("SELECT c FROM Contato c WHERE c.dataNascimento BETWEEN :dataInicial AND :dataFinal")
     List<Contato> listarAniversariantesDoPeriodo(@Param("dataInicial") LocalDate dataInicio, @Param("dataFinal") LocalDate dataFinal);
