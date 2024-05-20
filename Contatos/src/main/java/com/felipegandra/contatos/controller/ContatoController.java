@@ -14,49 +14,49 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Api")
+@RequestMapping("/Api/contatos")
 public class ContatoController {
 
     @Autowired
     private ContatoService service;
 
-    @PostMapping("/contatos")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ContatoExibicaoDto gravar(@RequestBody @Valid ContatoCadastroDto contatoCadastroDto) { return service.gravar(contatoCadastroDto); }
 
-    @GetMapping("/contatos")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public Page<ContatoExibicaoDto> listarTodos(Pageable paginacao) { return service.listarTodos(paginacao); }
 
 
-    @DeleteMapping("/contatos/{id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void excluir(@PathVariable Long id) {
         service.excluir(id);
     }
 
-    @PutMapping("/contatos")
+    @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public Contato atualizar(@RequestBody Contato contato) {
         return service.atualizar(contato);
     }
 
-    @GetMapping("/contatos/{nome}")
+    @GetMapping("/{nome}")
     @ResponseStatus(HttpStatus.OK)
     public ContatoExibicaoDto buscarContatoPeloNome(@PathVariable String nome) {
         return service.buscarPeloNome(nome);
     }
 
-    @GetMapping(value = "/contatos", params = "email")
+    @GetMapping(params = "email")
     public ContatoExibicaoDto buscarContatoPeloEmail(@RequestParam String email) { return service.buscarPeloEmail(email); }
 
-    @GetMapping("/contatos/{dataInicial}/{dataFinal}")
+    @GetMapping("/{dataInicial}/{dataFinal}")
     @ResponseStatus(HttpStatus.OK)
     public List<Contato> mostrarAniversariantes(@PathVariable LocalDate dataInicial, @PathVariable LocalDate dataFinal) {
         return service.mostrarAniversariantes(dataInicial, dataFinal);
     }
 
-    @GetMapping(value = "/contatos", params = {"dataInicial", "dataFinal"})
+    @GetMapping(params = {"dataInicial", "dataFinal"})
     public List<ContatoExibicaoDto> listaAniversariantes(
             @RequestParam LocalDate dataInicial,
             @RequestParam LocalDate dataFinal
