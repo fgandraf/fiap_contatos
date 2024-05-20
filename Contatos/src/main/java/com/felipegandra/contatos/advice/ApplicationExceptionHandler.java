@@ -1,5 +1,6 @@
 package com.felipegandra.contatos.advice;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -25,6 +26,14 @@ public class ApplicationExceptionHandler {
             mapaDeErro.put(campo.getField(), campo.getDefaultMessage());
         }
 
+        return mapaDeErro;
+    }
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public Map<String, String> manusearIntegridadeDosDados() {
+        Map<String, String> mapaDeErro = new HashMap<>();
+        mapaDeErro.put("erro", "Usuário já cadastrado!");
         return mapaDeErro;
     }
 

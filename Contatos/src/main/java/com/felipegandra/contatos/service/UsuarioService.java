@@ -9,6 +9,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -23,6 +24,8 @@ public class UsuarioService {
     public UsuarioExibicaoDto gravar(UsuarioCadastroDto usuarioCadastroDto) {
         Usuario usuario = new Usuario();
         BeanUtils.copyProperties(usuarioCadastroDto, usuario);
+        usuario.setSenha(new BCryptPasswordEncoder().encode(usuarioCadastroDto.senha()));
+
         return new UsuarioExibicaoDto(repository.save(usuario));
     }
 
