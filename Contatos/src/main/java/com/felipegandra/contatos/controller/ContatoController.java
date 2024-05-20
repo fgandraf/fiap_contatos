@@ -28,7 +28,6 @@ public class ContatoController {
     @ResponseStatus(HttpStatus.OK)
     public Page<ContatoExibicaoDto> listarTodos(Pageable paginacao) { return service.listarTodos(paginacao); }
 
-
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void excluir(@PathVariable Long id) {
